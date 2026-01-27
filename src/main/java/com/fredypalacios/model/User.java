@@ -14,19 +14,19 @@ public record User(
 ) {
     public User {
         if (username == null || username.isBlank()) {
-            throw new IllegalArgumentException("El username no puede estar vacío");
+            throw new IllegalArgumentException("Username cannot be empty");
         }
         if (password == null || password.length() < 6) {
-            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres");
+            throw new IllegalArgumentException("Password must be at least 6 characters long");
         }
         if (email == null || !email.contains("@")) {
-            throw new IllegalArgumentException("Email inválido");
+            throw new IllegalArgumentException("Invalid email");
         }
         if (fullName == null || fullName.isBlank()) {
-            throw new IllegalArgumentException("El nombre completo no puede estar vacío");
+            throw new IllegalArgumentException("Full name cannot be empty");
         }
         if (role == null) {
-            throw new IllegalArgumentException("El rol no puede ser nulo");
+            throw new IllegalArgumentException("Role cannot be null");
         }
     }
 

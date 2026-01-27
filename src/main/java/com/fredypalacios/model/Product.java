@@ -19,25 +19,25 @@ public record Product(
 ) {
     public Product {
         if (sku == null || sku.isBlank()) {
-            throw new IllegalArgumentException("El SKU no puede estar vacío");
+            throw new IllegalArgumentException("SKU cannot be empty");
         }
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("El nombre no puede estar vacío");
+            throw new IllegalArgumentException("Name cannot be empty");
         }
         if (price < 0) {
-            throw new IllegalArgumentException("El precio no puede ser negativo");
+            throw new IllegalArgumentException("Price cannot be negative");
         }
         if (stock < 0) {
-            throw new IllegalArgumentException("El stock no puede ser negativo");
+            throw new IllegalArgumentException("Stock cannot be negative");
         }
         if (reservedStock < 0) {
-            throw new IllegalArgumentException("El stock reservado no puede ser negativo");
+            throw new IllegalArgumentException("Reserved stock cannot be negative");
         }
         if (minStock < 0) {
-            throw new IllegalArgumentException("El stock mínimo no puede ser negativo");
+            throw new IllegalArgumentException("Minimum stock cannot be negative");
         }
         if (status == null) {
-            throw new IllegalArgumentException("El estado no puede ser nulo");
+            throw new IllegalArgumentException("Status cannot be null");
         }
     }
 

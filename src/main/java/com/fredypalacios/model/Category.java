@@ -8,7 +8,7 @@ public record Category(
 ) {
     public Category {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("El nombre de la categoría no puede estar vacío");
+            throw new IllegalArgumentException("The category name cannot be empty.");
         }
     }
 
