@@ -4,7 +4,7 @@ import com.fredypalacios.enums.UserRole;
 import java.time.LocalDateTime;
 
 public record User(
-    int id,
+    Integer id,
     String username,
     String password,
     String email,
