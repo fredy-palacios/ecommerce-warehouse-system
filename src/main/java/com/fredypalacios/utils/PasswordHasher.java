@@ -2,8 +2,6 @@ package com.fredypalacios.utils;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import javax.swing.plaf.PanelUI;
-
 public class PasswordHasher {
 
     private static final int LOG_ROUNDS = 12;

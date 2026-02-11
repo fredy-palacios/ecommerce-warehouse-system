@@ -3,8 +3,10 @@ package com.fredypalacios.service;
 import com.fredypalacios.dao.UserDAO;
 import com.fredypalacios.enums.UserRole;
 import com.fredypalacios.model.User;
+import com.fredypalacios.utils.PasswordHasher;
 import static com.fredypalacios.utils.ConsoleColors.*;
 import static com.fredypalacios.utils.UIMessages.*;
+
 
 import java.sql.SQLException;
 import java.util.List;
@@ -98,8 +100,11 @@ public class UserService {
         };
 
         try {
-            User user = new User(username, password, email, fullName, role);
+            String hashedPassword = PasswordHasher.hash(password);
+            User user = new User(username, hashedPassword, email, fullName, role);
+
             loadingAnimation(Status.CREATING, 500);
+
             if (userDAO.create(user)) {
                 System.out.println(success(Prefix.SUCCESS +" User created successfully"));
             } else {
