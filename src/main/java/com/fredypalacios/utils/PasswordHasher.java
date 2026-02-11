@@ -11,7 +11,7 @@ public class PasswordHasher {
     }
 
     public static String hash(String plainTextPassword) {
-        if (plainTextPassword == null || plainTextPassword.isEmpty()) {
+        if (plainTextPassword == null || plainTextPassword.isBlank()) {
             throw new IllegalArgumentException("Password cannot be null or empty");
         }
         return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt(LOG_ROUNDS));

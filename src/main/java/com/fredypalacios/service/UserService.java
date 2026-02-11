@@ -4,6 +4,8 @@ import com.fredypalacios.dao.UserDAO;
 import com.fredypalacios.enums.UserRole;
 import com.fredypalacios.model.User;
 import com.fredypalacios.utils.PasswordHasher;
+import com.fredypalacios.utils.InputValidator;
+import com.fredypalacios.utils.ValidationException;
 import static com.fredypalacios.utils.ConsoleColors.*;
 import static com.fredypalacios.utils.UIMessages.*;
 
@@ -75,6 +77,7 @@ public class UserService {
     public void create() throws Exception {
         clearScreen();
         System.out.println(title(Titles.CREATE_USER));
+
         System.out.print(info("Username: "));
         String username = scanner.nextLine();
         System.out.print(info("Password: "));
@@ -100,18 +103,32 @@ public class UserService {
         };
 
         try {
-            String hashedPassword = PasswordHasher.hash(password);
-            User user = new User(username, hashedPassword, email, fullName, role);
+            String validUserName = InputValidator.validateUsername(username);
+            String validPassword = InputValidator.validatePassword(password);
+            String validEmail = InputValidator.validateEmail(email);
+            String validFullName = InputValidator.validateFullName(fullName);
+
+            String hashedPassword = PasswordHasher.hash(validPassword);
+
+            User user = new User(validUserName, hashedPassword, validEmail, validFullName, role);
 
             loadingAnimation(Status.CREATING, 500);
 
             if (userDAO.create(user)) {
                 System.out.println(success(Prefix.SUCCESS +" User created successfully"));
             } else {
-                System.out.println(error(Prefix.WARNING + "Error creating user"));
+                System.out.println(error(Prefix.WARNING + " Error creating user"));
             }
+
+        } catch (ValidationException e) {
+            System.out.println(error(Prefix.WARNING + " Validation error: " + e.getMessage()));
+
+        } catch (SQLException e) {
+            System.out.println(error(Prefix.ERROR + " Database error: " + e));
+
         } catch (Exception e) {
             System.out.println(error(Prefix.ERROR + e.getMessage()));
+
         }
         Thread.sleep(1500);
     }
