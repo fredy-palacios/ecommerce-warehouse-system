@@ -11,14 +11,14 @@ public class PasswordHasher {
     }
 
     public static String hash(String plainTextPassword) {
-        if(plainTextPassword == null || plainTextPassword.isEmpty()) {
+        if (plainTextPassword == null || plainTextPassword.isEmpty()) {
             throw new IllegalArgumentException("Password cannot be null or empty");
         }
         return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt(LOG_ROUNDS));
     }
 
     public static boolean verify(String plainTextPassword, String hashedPassword) {
-        if(plainTextPassword == null || hashedPassword == null) {
+        if (plainTextPassword == null || hashedPassword == null) {
             return false;
         }
 
@@ -33,7 +33,7 @@ public class PasswordHasher {
     public static boolean needsRehash(String hashedPassword) {
         try {
             String[] parts = hashedPassword.split("\\$");
-            if(parts.length < 4) {
+            if (parts.length < 4) {
                 return true;
             }
 
