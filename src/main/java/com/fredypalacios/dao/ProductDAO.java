@@ -30,7 +30,7 @@ public class ProductDAO extends AbstractDAO<Product, Integer> {
     @Override
     public boolean create(Product product) throws SQLException {
         String sql = """
-            INSET INTO products (sku, name, description, price, reserved_stock, min_stock, location, status, category_id)
+            INSERT INTO products (sku, name, description, price, reserved_stock, min_stock, location, status, category_id)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """;
         return executeUpdate(sql, preparedStatement -> {

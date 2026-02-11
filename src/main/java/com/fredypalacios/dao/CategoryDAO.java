@@ -22,7 +22,7 @@ public class CategoryDAO extends AbstractDAO<Category, Integer> {
     @Override
     public boolean create(Category category) throws SQLException {
         String sql = """
-            INSET INTO categories(name, description, active)
+            INSERT INTO categories(name, description, active)
             VALUES (?, ?, ?)
             """;
         return executeUpdate(sql, preparedStatement -> {

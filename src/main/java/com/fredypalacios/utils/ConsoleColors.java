@@ -100,6 +100,20 @@ public class ConsoleColors {
         }
     }
 
+    public static void showWelcome() throws InterruptedException {
+        clearScreen();
+        printBanner();
+        System.out.println(title("   E-COMMERCE WAREHOUSE MANAGEMENT SYSTEM"));
+        System.out.println(info("   Warehouse Management System v1.0"));
+        System.out.println(info("   Developed with Java 17 + JDBC + Oracle\n"));
+
+        loadingAnimation("Starting system", 800);
+        loadingAnimation("Connecting to database", 600);
+        loadingAnimation("Loading modules", 400);
+        System.out.println(success(UIMessages.Prefix.SUCCESS +"System ready\n"));
+        Thread.sleep(500);
+    }
+
     // Banner
     public static void printBanner() {
         String[] banner = {
@@ -137,5 +151,16 @@ public class ConsoleColors {
 
     public static void printLine() {
         System.out.println(info("─".repeat(70)));
+    }
+
+    public static void showGoodbye() {
+        System.out.println();
+        System.out.println(success("  ╔═══════════════════════════════════════╗"));
+        System.out.println(success("  ║                                       ║"));
+        System.out.println(success("  ║   ✓ Thank you for using the system    ║"));
+        System.out.println(success("  ║   See you soon!                       ║"));
+        System.out.println(success("  ║                                       ║"));
+        System.out.println(success("  ╚═══════════════════════════════════════╝"));
+        System.out.println();
     }
 }
