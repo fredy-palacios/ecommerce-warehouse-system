@@ -4,6 +4,8 @@ import com.fredypalacios.dao.CategoryDAO;
 import com.fredypalacios.dao.ProductDAO;
 import com.fredypalacios.model.Category;
 import com.fredypalacios.model.Product;
+import com.fredypalacios.utils.InputValidator;
+import com.fredypalacios.utils.ValidationException;
 import static com.fredypalacios.utils.ConsoleColors.*;
 import static com.fredypalacios.utils.UIMessages.*;
 
@@ -110,7 +112,24 @@ public class ProductService {
 
             int categoryId = getIntInput("Category ID: ");
 
-            Product product = new Product(sku, name, description, price, stock, minStock, location, categoryId);
+            String validSku = InputValidator.validateSKU(sku);
+            String validName = InputValidator.validateString(name, "Product name", 2, 100, false);
+            String validDescription = InputValidator.validateString(description, "Description", 0, 255, true);
+            double validPrice = InputValidator.validatePrice(price);
+            int validStock = InputValidator.validateStock(stock);
+            int validMinStock = InputValidator.validateStock(minStock);
+            String validLocation = InputValidator.validateString(location, "Location", 1, 20, true);
+
+            Product product = new Product(
+                validSku,
+                validName,
+                validDescription,
+                validPrice,
+                validStock,
+                validMinStock,
+                validLocation,
+                categoryId
+            );
 
             loadingAnimation( Status.CREATING +" product", 500);
 
@@ -118,6 +137,15 @@ public class ProductService {
                 System.out.println(success(Prefix.SUCCESS +" Product created successfully"));
             } else {
                 System.out.println(error(Prefix.WARNING +" Error creating product"));
+            }
+        } catch (ValidationException e) {
+            System.out.println(error(Prefix.WARNING + " Validation error: " + e.getMessage()));
+
+        } catch (SQLException e) {
+            if(e.getMessage() != null && e.getMessage().contains("unique constraint")) {
+                System.out.println(error(Prefix.ERROR + " SKU already exists"));
+            } else {
+                System.out.println(error(Prefix.ERROR + "Database error"));
             }
 
         } catch (Exception e) {
@@ -152,7 +180,6 @@ public class ProductService {
         waitForEnter();
     }
      */
-
 
     private void updateStock() throws Exception {
         clearScreen();

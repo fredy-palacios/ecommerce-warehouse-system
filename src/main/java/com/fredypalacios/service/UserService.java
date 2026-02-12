@@ -9,7 +9,6 @@ import com.fredypalacios.utils.ValidationException;
 import static com.fredypalacios.utils.ConsoleColors.*;
 import static com.fredypalacios.utils.UIMessages.*;
 
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
