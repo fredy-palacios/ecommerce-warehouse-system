@@ -4,6 +4,8 @@ import com.fredypalacios.dao.CategoryDAO;
 import com.fredypalacios.model.Category;
 import static com.fredypalacios.utils.ConsoleColors.*;
 import static com.fredypalacios.utils.UIMessages.*;
+import com.fredypalacios.utils.InputValidator;
+import com.fredypalacios.utils.ValidationException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -80,7 +82,10 @@ public class CategoryService {
         String description = scanner.nextLine();
 
         try {
-            Category category = new Category(name, description);
+            String validName = InputValidator.validateString(name, "Category name", 2, 100, false);
+            String validDescription = InputValidator.validateString(description, "Description", 0, 255, true);
+
+            Category category = new Category(validName, validDescription);
 
             loadingAnimation("Creating category", 500);
 
@@ -89,6 +94,16 @@ public class CategoryService {
             } else {
                 System.out.println(error(Prefix.WARNING + " Error creating category"));
             }
+        } catch(ValidationException e) {
+            System.out.println(error(Prefix.WARNING + "Validation error: " + e.getMessage()));
+
+        } catch (SQLException e) {
+            if (e.getMessage() != null && e.getMessage().contains("unique constraint")) {
+                System.out.println(error(Prefix.ERROR + " Category name already exists"));
+            } else {
+                System.out.println(error(Prefix.ERROR + " Database error"));
+            }
+
         } catch (Exception e) {
             System.out.println(error(Prefix.ERROR + e.getMessage()));
         }
