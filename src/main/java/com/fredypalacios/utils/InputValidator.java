@@ -14,8 +14,8 @@ public class InputValidator {
         throw new UnsupportedOperationException("Utility class");
     }
 
-    public static String requireNotBlank(String value, String message) throws ValidationException {
-        if (value == null || value.isBlank()) {
+    public static String requiredNotEmpty(String value, String message) throws ValidationException {
+        if (value == null || value.isEmpty()) {
             throw new ValidationException(message);
         }
 
@@ -24,7 +24,7 @@ public class InputValidator {
 
     public static String validateUsername(String username) throws ValidationException {
 
-        username = requireNotBlank(username, "Username cannot be empty");
+        username = requiredNotEmpty(username, "Username cannot be empty");
 
         if (!USERNAME_PATTERN.matcher(username).matches()) {
             throw new ValidationException("Username must be 3-20 alphanumeric characters or underscores");
@@ -35,7 +35,7 @@ public class InputValidator {
 
     public static String validatePassword(String password) throws ValidationException {
 
-        password = requireNotBlank(password,"Password cannot be empty");
+        password = requiredNotEmpty(password,"Password cannot be empty");
 
         if (password.length() < 8) {
             throw new ValidationException("Password must be at least 8 characters");
@@ -58,7 +58,7 @@ public class InputValidator {
 
     public static String validateEmail(String email) throws ValidationException {
 
-        email = requireNotBlank(email, "Email cannot be empty").toLowerCase();
+        email = requiredNotEmpty(email, "Email cannot be empty").toLowerCase();
 
         if (!EMAIL_PATTERN.matcher(email).matches()) {
             throw new ValidationException("Invalid email format");
@@ -73,7 +73,7 @@ public class InputValidator {
 
     public static String validateFullName(String fullName) throws ValidationException {
 
-        fullName = requireNotBlank(fullName,"Full name cannot be empty");
+        fullName = requiredNotEmpty(fullName,"Full name cannot be empty");
 
         if (fullName.length() < 2) {
             throw new ValidationException("Full name must be at least 2 characters");
@@ -92,7 +92,7 @@ public class InputValidator {
 
     public static String validateSKU(String sku) throws ValidationException {
 
-        sku = requireNotBlank(sku,"SKU cannot be empty" ).toLowerCase();
+        sku = requiredNotEmpty(sku,"SKU cannot be empty" ).toUpperCase();
 
         if (!SKU_PATTERN.matcher(sku).matches()) {
             throw new ValidationException("SKU must be 3-50 uppercase alphanumeric characters or hyphens");

@@ -42,7 +42,7 @@ public class ProductService {
             switch (option) {
                 case 1 -> listAll();
                 case 2 -> create();
-                //case 3 -> findBySku();
+                case 3 -> findBySku();
                 case 4 -> updateStock();
                 case 5 -> showLowStock();
                 case 0 -> back = true;
@@ -155,8 +155,6 @@ public class ProductService {
         Thread.sleep(1500);
     }
 
-    //REFACTOR
-    /*
     private void findBySku() throws Exception {
         clearScreen();
         System.out.println(title(Titles.SEARCH_PRODUCT));
@@ -164,13 +162,22 @@ public class ProductService {
         String sku = scanner.nextLine();
 
         try {
-            loadingAnimation("Searching", 400);
-            if (p != null) {
-                System.out.println(success("\n✓ Product found:\n"));
-                System.out.println(info("  SKU:    ") + highlight(p.sku()));
-                System.out.println(info("  Name:   ") + highlight(p.name()));
-                System.out.println(info("  Price:  ") + success("$" + p.price()));
-                System.out.println(info("  Stock:  ") + success(String.valueOf(p.stock())));
+            loadingAnimation(Status.SEARCHING, 400);
+            Product product = productDAO.findBySku(sku.toUpperCase());
+
+            if (product != null) {
+                System.out.println(success(Prefix.SUCCESS + "Product found: "));
+                printLine();
+                System.out.println(info("  ID:          ") + highlight(String.valueOf(product.id())));
+                System.out.println(info("  SKU:         ") + highlight(product.sku()));
+                System.out.println(info("  Name:        ") + highlight(product.name()));
+                System.out.println(info("  Description: ") + product.description());
+                System.out.println(info("  Price:       ") + success("$" + product.price()));
+                System.out.println(info("  Stock:       ") + success(String.valueOf(product.stock())));
+                System.out.println(info("  Min Stock:   ") + String.valueOf(product.minStock()));
+                System.out.println(info("  Location:    ") + product.location());
+                System.out.println(info("  Status:      ") + getStatusColor(product.status().name()));
+                printLine();
             } else {
                 System.out.println(error(Prefix.WARNING + "Product not found"));
             }
@@ -179,7 +186,6 @@ public class ProductService {
         }
         waitForEnter();
     }
-     */
 
     private void updateStock() throws Exception {
         clearScreen();
@@ -278,5 +284,14 @@ public class ProductService {
     private void waitForEnter() {
         System.out.println(info(Input.PRESS_ENTER));
         scanner.nextLine();
+    }
+
+    private String getStatusColor(String status) {
+        return switch (status) {
+            case "AVAILABLE" -> success(status);
+            case "LOW_STOCK" -> warning(status);
+            case "OUT_OF_STOCK" -> error(status);
+            default -> info(status);
+        };
     }
 }

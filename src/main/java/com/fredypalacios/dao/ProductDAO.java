@@ -30,19 +30,20 @@ public class ProductDAO extends AbstractDAO<Product, Integer> {
     @Override
     public boolean create(Product product) throws SQLException {
         String sql = """
-            INSERT INTO products (sku, name, description, price, reserved_stock, min_stock, location, status, category_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO products (sku, name, description, price, stock, reserved_stock, min_stock, location, status, category_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """;
         return executeUpdate(sql, preparedStatement -> {
             preparedStatement.setString(1, product.sku());
             preparedStatement.setString(2, product.name());
             preparedStatement.setString(3, product.description());
             preparedStatement.setDouble(4, product.price());
-            preparedStatement.setInt(5, product.reservedStock());
-            preparedStatement.setInt(6, product.minStock());
-            preparedStatement.setString(7, product.location());
-            preparedStatement.setString(8, product.status().name());
-            preparedStatement.setInt(9, product.categoryId());
+            preparedStatement.setInt(5, product.stock());
+            preparedStatement.setInt(6, product.reservedStock());
+            preparedStatement.setInt(7, product.minStock());
+            preparedStatement.setString(8, product.location());
+            preparedStatement.setString(9, product.status().name());
+            preparedStatement.setInt(10, product.categoryId());
         }) > 0;
     }
 
