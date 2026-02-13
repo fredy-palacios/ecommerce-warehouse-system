@@ -27,7 +27,6 @@ public class PasswordHasher {
         } catch (IllegalArgumentException e) {
             return false;
         }
-
     }
 
     public static boolean needsRehash(String hashedPassword) {
