@@ -3,11 +3,21 @@ package com.fredypalacios.dao;
 import com.fredypalacios.dao.base.AbstractDAO;
 import com.fredypalacios.model.Category;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CategoryDAO extends AbstractDAO<Category, Integer> {
+
+    public CategoryDAO() {
+        super();
+    }
+
+    public CategoryDAO(Supplier<Connection> connectionSupplier) {
+        super(connectionSupplier);
+    }
 
     @Override
     protected Category mapRow(ResultSet resultSet) throws SQLException {

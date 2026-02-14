@@ -4,11 +4,22 @@ import com.fredypalacios.dao.base.AbstractDAO;
 import com.fredypalacios.enums.ProductStatus;
 import com.fredypalacios.model.Product;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ProductDAO extends AbstractDAO<Product, Integer> {
+
+    public ProductDAO() {
+        super();
+    }
+
+    public ProductDAO(Supplier<Connection> connectionSupplier) {
+        super(connectionSupplier);
+    }
+
     @Override
     protected Product mapRow(ResultSet resultSet) throws SQLException {
         return new Product(

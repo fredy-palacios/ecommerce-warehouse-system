@@ -3,11 +3,22 @@ package com.fredypalacios.dao;
 import com.fredypalacios.dao.base.AbstractDAO;
 import com.fredypalacios.enums.UserRole;
 import com.fredypalacios.model.User;
+
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class UserDAO extends AbstractDAO<User, Integer> {
+
+    public UserDAO() {
+        super();
+    }
+
+    public UserDAO(Supplier<Connection> connectionSupplier) {
+        super(connectionSupplier);
+    }
 
     @Override
     protected User mapRow(ResultSet resultSet) throws SQLException {
