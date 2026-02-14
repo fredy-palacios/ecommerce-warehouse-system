@@ -1,15 +1,16 @@
 package com.fredypalacios.service;
 
-import com.fredypalacios.dao.CategoryDAO;
-import com.fredypalacios.model.Category;
-import static com.fredypalacios.utils.ConsoleColors.*;
-import static com.fredypalacios.utils.UIMessages.*;
-import com.fredypalacios.utils.InputValidator;
-import com.fredypalacios.utils.ValidationException;
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
+
+import static com.fredypalacios.utils.ConsoleColors.*;
+import static com.fredypalacios.utils.UIMessages.*;
+
+import com.fredypalacios.dao.CategoryDAO;
+import com.fredypalacios.model.Category;
+import com.fredypalacios.utils.InputValidator;
+import com.fredypalacios.utils.ValidationException;
 
 public class CategoryService {
     private final CategoryDAO categoryDAO;

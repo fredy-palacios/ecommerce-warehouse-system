@@ -1,14 +1,14 @@
 package com.fredypalacios.dao;
 
-import com.fredypalacios.dao.base.AbstractDAO;
-import com.fredypalacios.enums.ProductStatus;
-import com.fredypalacios.model.Product;
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Supplier;
+
+import com.fredypalacios.dao.base.AbstractDAO;
+import com.fredypalacios.enums.ProductStatus;
+import com.fredypalacios.model.Product;
 
 public class ProductDAO extends AbstractDAO<Product, Integer> {
 

@@ -1,7 +1,8 @@
 package com.fredypalacios.model;
 
-import com.fredypalacios.enums.UserRole;
 import java.time.LocalDateTime;
+
+import com.fredypalacios.enums.UserRole;
 
 public record User(
     Integer id,

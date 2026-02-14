@@ -1,7 +1,8 @@
 package com.fredypalacios.model;
 
-import com.fredypalacios.enums.ProductStatus;
 import java.time.LocalDateTime;
+
+import com.fredypalacios.enums.ProductStatus;
 
 public record Product(
     int id,

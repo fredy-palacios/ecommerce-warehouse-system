@@ -1,17 +1,18 @@
 package com.fredypalacios.service;
 
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+
+import static com.fredypalacios.utils.ConsoleColors.*;
+import static com.fredypalacios.utils.UIMessages.*;
+
 import com.fredypalacios.dao.UserDAO;
 import com.fredypalacios.enums.UserRole;
 import com.fredypalacios.model.User;
 import com.fredypalacios.utils.PasswordHasher;
 import com.fredypalacios.utils.InputValidator;
 import com.fredypalacios.utils.ValidationException;
-import static com.fredypalacios.utils.ConsoleColors.*;
-import static com.fredypalacios.utils.UIMessages.*;
-
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Scanner;
 
 public class UserService {
     private final UserDAO userDAO;

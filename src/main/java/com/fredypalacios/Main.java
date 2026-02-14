@@ -1,9 +1,11 @@
 package com.fredypalacios;
 
-import com.fredypalacios.service.MenuService;
+import java.util.Scanner;
+
 import static com.fredypalacios.utils.UIMessages.*;
 import static com.fredypalacios.utils.ConsoleColors.*;
-import java.util.Scanner;
+
+import com.fredypalacios.service.MenuService;
 
 public class Main {
     public static void main(String[] args) {

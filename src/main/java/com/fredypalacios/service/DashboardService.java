@@ -1,5 +1,10 @@
 package com.fredypalacios.service;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import static com.fredypalacios.utils.ConsoleColors.*;
+
 import com.fredypalacios.dao.CategoryDAO;
 import com.fredypalacios.dao.ProductDAO;
 import com.fredypalacios.dao.UserDAO;
@@ -7,10 +12,6 @@ import com.fredypalacios.enums.ProductStatus;
 import com.fredypalacios.model.Category;
 import com.fredypalacios.model.Product;
 import com.fredypalacios.model.User;
-import static com.fredypalacios.utils.ConsoleColors.*;
-
-import java.sql.SQLException;
-import java.util.List;
 
 public class DashboardService {
     private final ProductDAO productDAO;
