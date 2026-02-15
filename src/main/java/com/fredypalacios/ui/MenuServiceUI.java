@@ -12,17 +12,18 @@ import java.util.Scanner;
 
 public class MenuServiceUI {
     private final Scanner scanner;
-    private final UserService userService;
+    private final UserConsoleUI userConsoleUI;
+
     private final ProductService productService;
     private final DashboardService dashboardService;
     private final CategoryConsoleUI categoryConsoleUI;
 
     public MenuServiceUI(Scanner scanner) {
         this.scanner = scanner;
-        this.userService = new UserService(scanner);
+        this.userConsoleUI = new UserConsoleUI(scanner);
         this.productService = new ProductService(scanner);
-        this.dashboardService = new DashboardService();
         this.categoryConsoleUI = new CategoryConsoleUI(scanner);
+        this.dashboardService = new DashboardService();
 
     }
 
@@ -39,7 +40,7 @@ public class MenuServiceUI {
 
     public void handleMainMenuOption(int option) throws Exception {
         switch (option) {
-            case 1 -> userService.showMenu();
+            case 1 -> userConsoleUI.showMenu();
             case 2 -> productService.showMenu();
             case 3 -> categoryConsoleUI.showMenu();
             case 4 -> showDashboard();

@@ -90,14 +90,14 @@ public class UserDAO extends AbstractDAO<User, Integer> {
 
     public User findByUserName(String username) throws SQLException {
         String sql = """
-            SELECT * FROM users WHERE username = ?;
+            SELECT * FROM users WHERE username = ?
             """;
         return executeQueryForOne(sql, preparedStatement -> preparedStatement.setString(1, username));
     }
 
     public List<User> findByRole(UserRole role) throws SQLException {
         String sql = """
-            SELECT * FROM users WHERE role = ? ORDER BY username;
+            SELECT * FROM users WHERE role = ? ORDER BY username
             """;
         return executeQueryForList(sql, preparedStatement -> preparedStatement.setString(1, role.name()));
     }

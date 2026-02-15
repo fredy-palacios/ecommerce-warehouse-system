@@ -32,7 +32,11 @@ public final class MessagesUI {
         public static final String USER_MANAGEMENT = "\n═══ 👤 USER MANAGEMENT ═══\n";
         public static final String LIST_USER = "\n═══ 📋 USER LIST ═══\n";
         public static final String CREATE_USER = "\n═══ ➕ CREATE USER ═══\n";
-        public static final String SEARCH_USER = "\n═══ 🔍 SEARCH USER ═══\n";
+        public static final String UPDATE_USER = "\n═══ ✏️  UPDATE USER ═══\n";
+        public static final String DELETE_USER = "\n═══ 🗑️  DELETE USER ═══\n";
+        public static final String SEARCH_USER_BY_ID = "\n═══ 🔍 SEARCH USER ═══\n";
+        public static final String SEARCH_USER_BY_USERNAME = "\n═══ 🔍 SEARCH BY USERNAME ═══\n";
+        public static final String CHANGE_PASSWORD = "\n═══ 🔑 CHANGE PASSWORD ═══\n";
 
         public static final String PRODUCT_MANAGEMENT = "\n═══ 📦 PRODUCT MANAGEMENT ═══\n";
         public static final String CREATE_PRODUCT = "\n═══ ➕ CREATE PRODUCT ═══\n";
@@ -49,7 +53,4 @@ public final class MessagesUI {
         public static final String SEARCH_CATEGORY = "\n ═══ 🔍 SEARCH CATEGORY ═══\n";
         public static final String TOGGLE_CATEGORY_STATUS = "\n═══ 🔄 TOGGLE CATEGORY STATUS ═══\n";
     }
-
-
-
 }

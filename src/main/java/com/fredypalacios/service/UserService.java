@@ -2,187 +2,101 @@ package com.fredypalacios.service;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
-
-import static com.fredypalacios.ui.ConsoleColors.*;
-import static com.fredypalacios.ui.MessagesUI.*;
 
 import com.fredypalacios.dao.UserDAO;
 import com.fredypalacios.enums.UserRole;
 import com.fredypalacios.model.User;
-import com.fredypalacios.utils.PasswordHasher;
 import com.fredypalacios.utils.InputValidator;
+import com.fredypalacios.utils.PasswordHasher;
 import com.fredypalacios.utils.ValidationException;
 
 public class UserService {
+
     private final UserDAO userDAO;
-    private final Scanner scanner;
 
-    public UserService(Scanner scanner) {
-        this.userDAO = new UserDAO();
-        this.scanner = scanner;
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
-    public void showMenu() throws Exception {
-        boolean back = false;
-        while (!back) {
-            clearScreen();
-            System.out.println(title(Titles.USER_MANAGEMENT));
-            System.out.println("  1. List users");
-            System.out.println("  2. Create user");
-            System.out.println("  3. Search by ID");
-            System.out.println("  0. Back");
-            int option = getIntInput(Prefix.OPTION);
-            switch (option) {
-                case 1 -> listAll();
-                case 2 -> create();
-                case 3 -> findById();
-                case 0 -> back = true;
-                default -> {
-                    System.out.println(error( Prefix.WARNING + Input.INVALID_OPTION));
-                    Thread.sleep(1000);
-                }
-            }
+    public UserService() {
+        this(new UserDAO());
+    }
+
+    public List<User> findByRole(UserRole role) throws SQLException {
+        if (role == null) {
+            throw new IllegalArgumentException("Role cannot be null");
         }
+        return userDAO.findByRole(role);
     }
 
-    private void listAll() throws Exception {
-        clearScreen();
-        System.out.println(title(Titles.LIST_USER));
-        try {
-            List<User> users = userDAO.findAll();
-            if(users.isEmpty()) {
-                System.out.println(warning(Prefix.WARNING + " No users registered"));
-            } else {
-                printLine();
-                System.out.printf("  %-5s %-15s %-25s %-20s %-12s%n",
-                        "ID", "USERNAME", "EMAIL", "NAME", "ROLE");
-                printLine();
-            }
+    public boolean create(
+        String username,
+        String password,
+        String email,
+        String fullName,
+        UserRole role
+    ) throws ValidationException, SQLException {
 
-            for (User user : users) {
-                String roleIcon = getRoleIcon(user.role());
-                System.out.printf("  %-5d %-15s %-25s %-20s %s %s%n",
-                        user.id(), user.username(), user.email(),
-                        truncate(user.fullName(), 20), roleIcon, user.role());
-            }
-            printLine();
-            System.out.println(info("\n  Total: " + users.size() + " user(s)"));
-        } catch (SQLException e) {
-            System.out.println(error(Prefix.ERROR + e.getMessage()));
+        String validUsername = InputValidator.validateUsername(username);
+        String validPassword = InputValidator.validatePassword(password);
+        String validEmail = InputValidator.validateEmail(email);
+        String validFullName = InputValidator.validateFullName(fullName);
+
+        if (role == null) {
+            throw new ValidationException("Role cannot be null");
         }
-        waitForEnter();
+
+        String hashedPassword = PasswordHasher.hash(validPassword);
+
+        User user = new User(validUsername, hashedPassword, validEmail, validFullName, role);
+        return userDAO.create(user);
     }
 
-    public void create() throws Exception {
-        clearScreen();
-        System.out.println(title(Titles.CREATE_USER));
-
-        System.out.print(info("Username: "));
-        String username = scanner.nextLine();
-        System.out.print(info("Password: "));
-        String password = scanner.nextLine();
-        System.out.print(info("Email: "));
-        String email = scanner.nextLine();
-        System.out.print(info("Full name: "));
-        String fullName = scanner.nextLine();
-
-        System.out.println(info("\nRoles:"));
-        System.out.println("  1. 👔 MANAGER");
-        System.out.println("  2. 📦 PICKER");
-        System.out.println("  3. 📥 RECEIVER");
-        System.out.println("  4. 📊 CONTROLLER");
-
-        int roleOpt = getIntInput("\nRole (1-4): ");
-        UserRole role = switch (roleOpt) {
-            case 1 -> UserRole.MANAGER;
-            case 2 -> UserRole.PICKER;
-            case 3 -> UserRole.RECEIVER;
-            case 4 -> UserRole.CONTROLLER;
-            default -> UserRole.CONTROLLER;
-        };
-
-        try {
-            String validUserName = InputValidator.validateUsername(username);
-            String validPassword = InputValidator.validatePassword(password);
-            String validEmail = InputValidator.validateEmail(email);
-            String validFullName = InputValidator.validateFullName(fullName);
-
-            String hashedPassword = PasswordHasher.hash(validPassword);
-
-            User user = new User(validUserName, hashedPassword, validEmail, validFullName, role);
-
-            loadingAnimation(Status.CREATING, 500);
-
-            if (userDAO.create(user)) {
-                System.out.println(success(Prefix.SUCCESS +" User created successfully"));
-            } else {
-                System.out.println(error(Prefix.WARNING + " Error creating user"));
-            }
-
-        } catch (ValidationException e) {
-            System.out.println(error(Prefix.WARNING + " Validation error: " + e.getMessage()));
-
-        } catch (SQLException e) {
-            System.out.println(error(Prefix.ERROR + " Database error: " + e));
-
-        } catch (Exception e) {
-            System.out.println(error(Prefix.ERROR + e.getMessage()));
-
+    public boolean update(User user) throws SQLException {
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
         }
-        Thread.sleep(1500);
+        return userDAO.update(user);
     }
 
-    private void findById() throws Exception {
-        clearScreen();
-        System.out.println(title(Titles.SEARCH_USER));
-        int id = getIntInput("User ID: ");
-        try {
-            loadingAnimation(Status.SEARCHING, 400);
-            User user = userDAO.findById(id);
-            if (user != null) {
-                System.out.println(success(Prefix.SUCCESS +  " User found:\n"));
-                System.out.println(info("  ID:       ") + highlight(String.valueOf(user.id())));
-                System.out.println(info("  Username: ") + highlight(user.username()));
-                System.out.println(info("  Email:    ") + user.email());
-                System.out.println(info("  Name:     ") + user.fullName());
-                System.out.println(info("  Role:     ") + getRoleIcon(user.role()) + " " + user.role());
-            } else {
-                System.out.println(error(Prefix.WARNING + " User not found"));
-            }
-        } catch (SQLException e) {
-            System.out.println(error(Prefix.ERROR + e.getMessage()));
+    public boolean delete(int id) throws SQLException {
+        return userDAO.delete(id);
+    }
+
+    public User findById(int id) throws SQLException {
+        return userDAO.findById(id);
+    }
+
+    public List<User> findAll() throws SQLException {
+        return userDAO.findAll();
+    }
+
+    public User findByUsername(String username) throws SQLException {
+        if (username == null || username.isBlank()) {
+            return null;
         }
-        waitForEnter();
+        return userDAO.findByUserName(username);
     }
 
-    private String getRoleIcon(UserRole role) {
-        return switch (role) {
-            case MANAGER -> "👔";
-            case PICKER -> "📦";
-            case RECEIVER -> "📥";
-            case CONTROLLER -> "📊";
-        };
-    }
+    public boolean updatePassword(int userId, String newPassword) throws ValidationException, SQLException {
+        String validPassword = InputValidator.validatePassword(newPassword);
 
-    private String truncate(String text, int max) {
-        if (text == null) return "";
-        return text.length() > max ? text.substring(0, max - 3) + "..." : text;
-    }
-
-    private int getIntInput(String prompt) {
-        while (true) {
-            try {
-                System.out.print(highlight(prompt));
-                return Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println(error(Prefix.WARNING + Input.INVALID_NUMBER));
-            }
+        User user = findById(userId);
+        if (user == null) {
+            return false;
         }
-    }
 
-    private void waitForEnter() {
-        System.out.println(info(Input.PRESS_ENTER));
-        scanner.nextLine();
+        String hashedPassword = PasswordHasher.hash(validPassword);
+
+        User updated = new User(
+            user.id(),
+            user.username(),
+            hashedPassword,
+            user.email(),
+            user.fullName(),
+            user.role(),
+            user.createdAt()
+        );
+        return userDAO.update(updated);
     }
 }
