@@ -2,40 +2,38 @@ package com.fredypalacios;
 
 import java.util.Scanner;
 
-import static com.fredypalacios.utils.UIMessages.*;
-import static com.fredypalacios.utils.ConsoleColors.*;
+import static com.fredypalacios.ui.MessagesUI.*;
+import static com.fredypalacios.ui.ConsoleColors.*;
 
-import com.fredypalacios.service.MenuService;
+import com.fredypalacios.ui.MenuServiceUI;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        MenuService menuService = new MenuService(scanner);
 
-        try {
+        try (scanner) {
+            MenuServiceUI menuServiceUI = new MenuServiceUI(scanner);
             showWelcome();
-            runApplication(menuService);
+            runApplication(menuServiceUI);
         } catch (Exception e) {
             System.out.println(error(Prefix.ERROR + e.getMessage()));
             e.printStackTrace();
-        } finally {
-            scanner.close();
         }
     }
 
-    private static void runApplication(MenuService menuService) throws Exception {
+    private static void runApplication(MenuServiceUI menuServiceUI) throws Exception {
         boolean running = true;
 
         while (running) {
             clearScreen();
-            menuService.showMainMenu();
+            menuServiceUI.showMainMenu();
 
-            int option = menuService.getIntInput("\nSelect option: ");
+            int option = menuServiceUI.getIntInput("\nSelect option: ");
 
             if (option == 0) {
-                running = !menuService.confirmExit();
+                running = !menuServiceUI.confirmExit();
             } else {
-                menuService.handleMainMenuOption(option);
+                menuServiceUI.handleMainMenuOption(option);
             }
         }
         showGoodbye();

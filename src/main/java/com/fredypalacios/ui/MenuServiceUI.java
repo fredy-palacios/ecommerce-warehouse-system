@@ -1,30 +1,34 @@
-package com.fredypalacios.service;
+package com.fredypalacios.ui;
 
-import static com.fredypalacios.utils.ConsoleColors.*;
-import static com.fredypalacios.utils.UIMessages.*;
+import com.fredypalacios.service.DashboardService;
+import com.fredypalacios.service.ProductService;
+import com.fredypalacios.service.UserService;
+
+import static com.fredypalacios.ui.ConsoleColors.*;
+import static com.fredypalacios.ui.MessagesUI.*;
 
 
 import java.util.Scanner;
 
-public class MenuService {
+public class MenuServiceUI {
     private final Scanner scanner;
     private final UserService userService;
     private final ProductService productService;
-    private final CategoryService categoryService;
     private final DashboardService dashboardService;
+    private final CategoryConsoleUI categoryConsoleUI;
 
-    public MenuService(Scanner scanner) {
+    public MenuServiceUI(Scanner scanner) {
         this.scanner = scanner;
         this.userService = new UserService(scanner);
         this.productService = new ProductService(scanner);
-        this.categoryService = new CategoryService(scanner);
         this.dashboardService = new DashboardService();
+        this.categoryConsoleUI = new CategoryConsoleUI(scanner);
 
     }
 
     public void showMainMenu() {
         System.out.println(title("╔══════════════════════════════════════════════════════╗"));
-        System.out.println(title("║") + bold("              MAIN MENU                               ") + title("║"));
+        System.out.println(title("║") + bold("                       MAIN MENU                      ") + title("║"));
         System.out.println(title("╚══════════════════════════════════════════════════════╝\n"));
 
         System.out.println(info("  1.") + " 👤  User Management");
@@ -37,7 +41,7 @@ public class MenuService {
         switch (option) {
             case 1 -> userService.showMenu();
             case 2 -> productService.showMenu();
-            case 3 -> categoryService.showMenu();
+            case 3 -> categoryConsoleUI.showMenu();
             case 4 -> showDashboard();
             case 0 -> {}
             default -> {
@@ -49,8 +53,8 @@ public class MenuService {
 
     private void showDashboard() throws Exception {
         clearScreen();
-        System.out.println(title("\n╔══════════════════════════════════════════════════════╗"));
-        System.out.println(title("║") + bold("                📊 DASHBOARD                         ") + title("║"));
+        System.out.println(title("╔══════════════════════════════════════════════════════╗"));
+        System.out.println(title("║") + bold("                       DASHBOARD                      ") + title("║"));
         System.out.println(title("╚══════════════════════════════════════════════════════╝\n"));
 
         dashboardService.showStatistics();

@@ -1,7 +1,7 @@
-package com.fredypalacios.utils;
+package com.fredypalacios.ui;
 
-public final class UIMessages {
-    private UIMessages() {
+public final class MessagesUI {
+    private MessagesUI() {
         throw new AssertionError("Cannot instantiate constants class");
     }
 
@@ -36,12 +36,18 @@ public final class UIMessages {
 
         public static final String PRODUCT_MANAGEMENT = "\n═══ 📦 PRODUCT MANAGEMENT ═══\n";
         public static final String CREATE_PRODUCT = "\n═══ ➕ CREATE PRODUCT ═══\n";
-        public static final String UPDATE_STOCK = "\n═══ 📊 UPDATE STOCK ═══\n";
+        public static final String UPDATE_STOCK = "\n═══ ✏️ UPDATE STOCK ═══\n";
         public static final String SEARCH_PRODUCT = "\n═══ 🔍 SEARCH PRODUCT ═══\n";
         public static final String LOW_STOCK_PRODUCTS = "\n═══ LOW STOCK PRODUCTS ═══\n";
 
         public static final String CATEGORY_MANAGEMENT = "\n ═══ 🏷️  CATEGORY MANAGEMENT ═══ \n";
         public static final String CREATE_CATEGORY = "\n═══ ➕ CREATE CATEGORY ═══\n";
+        public static final String UPDATE_CATEGORY = "\n═══ ✏️  UPDATE CATEGORY ═══\n";
+        public static final String DELETE_CATEGORY = "\n═══ 🗑️  DELETE CATEGORY ═══\n";
+        public static final String ALL_CATEGORIES = "\n ═══ 📋 ALL CATEGORIES ═══\n";
+        public static final String ACTIVE_CATEGORIES = "\n ═══ ✅ ACTIVE CATEGORIES ═══\n";
+        public static final String SEARCH_CATEGORY = "\n ═══ 🔍 SEARCH CATEGORY ═══\n";
+        public static final String TOGGLE_CATEGORY_STATUS = "\n═══ 🔄 TOGGLE CATEGORY STATUS ═══\n";
     }
 
 

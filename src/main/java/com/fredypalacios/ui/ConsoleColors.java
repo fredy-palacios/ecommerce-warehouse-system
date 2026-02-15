@@ -1,4 +1,4 @@
-package com.fredypalacios.utils;
+package com.fredypalacios.ui;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;
@@ -110,7 +110,7 @@ public class ConsoleColors {
         loadingAnimation("Starting system", 800);
         loadingAnimation("Connecting to database", 600);
         loadingAnimation("Loading modules", 400);
-        System.out.println(success(UIMessages.Prefix.SUCCESS +"System ready\n"));
+        System.out.println(success(MessagesUI.Prefix.SUCCESS +"System ready\n"));
         Thread.sleep(500);
     }
 
