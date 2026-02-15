@@ -2,8 +2,8 @@ package com.fredypalacios;
 
 import java.util.Scanner;
 
-import static com.fredypalacios.ui.MessagesUI.*;
-import static com.fredypalacios.ui.ConsoleColors.*;
+import static com.fredypalacios.ui.utils.MessagesUI.*;
+import static com.fredypalacios.ui.utils.ConsoleColors.*;
 
 import com.fredypalacios.ui.MenuServiceUI;
 

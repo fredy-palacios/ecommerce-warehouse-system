@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 public class PasswordHasherTest {
 
@@ -35,17 +37,16 @@ public class PasswordHasherTest {
             assertNotEquals(hash1, hash2);
         }
 
-        @Test
-        @DisplayName("Empty or null password should throw exception")
-        void hash_emptyPassword_shouldThrowException() {
-            String[] inputs = {"", null};
+        @ParameterizedTest
+        @NullAndEmptySource
+        @DisplayName("Hash with null or empty password should throw IllegalArgumentException")
+        void hash_nullOrEmpty_shouldThrowException(String password) {
+            IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> PasswordHasher.hash(password)
+            );
 
-            for(String input : inputs) {
-                IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-                        () -> PasswordHasher.hash(input));
-
-                assertEquals("Password cannot be null or empty", exception.getMessage());
-            }
+            assertEquals("Password cannot be null or empty", exception.getMessage());
         }
 
         @Test

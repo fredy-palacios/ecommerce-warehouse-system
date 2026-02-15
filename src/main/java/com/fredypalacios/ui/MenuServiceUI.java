@@ -2,10 +2,9 @@ package com.fredypalacios.ui;
 
 import com.fredypalacios.service.DashboardService;
 import com.fredypalacios.service.ProductService;
-import com.fredypalacios.service.UserService;
 
-import static com.fredypalacios.ui.ConsoleColors.*;
-import static com.fredypalacios.ui.MessagesUI.*;
+import static com.fredypalacios.ui.utils.ConsoleColors.*;
+import static com.fredypalacios.ui.utils.MessagesUI.*;
 
 
 import java.util.Scanner;

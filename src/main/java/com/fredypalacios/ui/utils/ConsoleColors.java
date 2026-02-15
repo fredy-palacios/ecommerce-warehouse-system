@@ -1,4 +1,4 @@
-package com.fredypalacios.ui;
+package com.fredypalacios.ui.utils;
 
 import com.diogonunes.jcolor.Ansi;
 import com.diogonunes.jcolor.Attribute;

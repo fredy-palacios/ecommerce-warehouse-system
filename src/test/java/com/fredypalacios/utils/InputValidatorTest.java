@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class InputValidatorTest {
 
@@ -12,35 +15,33 @@ class InputValidatorTest {
     @DisplayName("SKU Validation Tests")
     class SKUValidationTests {
 
-        @Test
-        @DisplayName("Empty or null SKU should throw ValidationException")
-        void validateSKU_notEmpty_shouldThrowException() throws ValidationException {
-            String[] inputs = {"", null};
+        @ParameterizedTest
+        @NullAndEmptySource
+        @DisplayName("ValidateSKU with null or empty should throw ValidationException")
+        void validateSKU_nullOrEmpty_shouldThrowException(String sku) {
+            ValidationException exception = assertThrows(ValidationException.class,
+                    () -> InputValidator.validateSKU(sku)
+            );
 
-            for(String input : inputs) {
-                ValidationException exception = assertThrows(ValidationException.class,
-                    () -> InputValidator.validateSKU(input));
-
-                assertEquals("SKU cannot be empty", exception.getMessage());
-            }
+            assertEquals("SKU cannot be empty", exception.getMessage());
         }
 
-        @Test
-        @DisplayName("SKU with invalid characters should throw exception")
-        void validateSKU_invalidCharacters_shouldThrowException() {
-            String[] inputs = {
-                "PROD@123",
-                "PROD-.123",
-                "11",
-                "64374850596088980483298490328648732648723648236643826483"
-            };
+        @ParameterizedTest
+        @ValueSource(strings = {
+            "PROD@123",     // Invalid: @
+            "PROD-.123",    // Invalid: .
+            "11",           // Invalid: too short
+            "64374850596088980483298490328648732648723648236643826483"    //Invalid: too long
+        })
+        @DisplayName("ValidateSKU with invalid characters should throw ValidationException")
+        void validateSKU_invalidCharacters_shouldThrowException(String invalidSKU) {
+            ValidationException exception = assertThrows(
+                ValidationException.class,
+                () -> InputValidator.validateSKU(invalidSKU)
+            );
 
-            for(String input : inputs) {
-                ValidationException exception = assertThrows(ValidationException.class,
-                    () -> InputValidator.validateSKU(input));
-
-                assertEquals("SKU must be 3-50 uppercase alphanumeric characters or hyphens", exception.getMessage());
-            }
+            assertEquals("SKU must be 3-50 uppercase alphanumeric characters or hyphens",
+                    exception.getMessage());
         }
 
         @Test

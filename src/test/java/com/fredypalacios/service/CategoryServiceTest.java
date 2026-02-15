@@ -107,9 +107,10 @@ public class CategoryServiceTest {
     @ValueSource(strings = {"A"})
     @DisplayName("Create with invalid name should throw ValidationException")
     void create_withInvalidName_shouldThrowValidationException(String invalidName) throws SQLException {
-        assertThrows(ValidationException.class, () -> {
-            categoryService.create(invalidName, "Description");
-        });
+        assertThrows(
+            ValidationException.class,
+            () -> categoryService.create(invalidName, "Description")
+        );
 
         verify(categoryDAO, never()).create(any(Category.class));
     }
@@ -129,9 +130,10 @@ public class CategoryServiceTest {
     @Test
     @DisplayName("Update with null category should throw exception")
     void update_withNull_shouldThrowException() throws SQLException {
-        assertThrows(IllegalArgumentException.class, () -> {
-            categoryService.update(null);
-        });
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> categoryService.update(null)
+        );
 
         verify(categoryDAO, never()).update(any(Category.class));
     }

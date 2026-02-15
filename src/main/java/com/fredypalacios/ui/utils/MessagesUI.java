@@ -1,4 +1,4 @@
-package com.fredypalacios.ui;
+package com.fredypalacios.ui.utils;
 
 public final class MessagesUI {
     private MessagesUI() {

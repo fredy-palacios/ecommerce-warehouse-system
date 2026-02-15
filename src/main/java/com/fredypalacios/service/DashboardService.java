@@ -3,7 +3,7 @@ package com.fredypalacios.service;
 import java.sql.SQLException;
 import java.util.List;
 
-import static com.fredypalacios.ui.ConsoleColors.*;
+import static com.fredypalacios.ui.utils.ConsoleColors.*;
 
 import com.fredypalacios.dao.CategoryDAO;
 import com.fredypalacios.dao.ProductDAO;

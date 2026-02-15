@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
-import static com.fredypalacios.ui.ConsoleColors.*;
-import static com.fredypalacios.ui.MessagesUI.*;
+import static com.fredypalacios.ui.utils.ConsoleColors.*;
+import static com.fredypalacios.ui.utils.MessagesUI.*;
 
 import com.fredypalacios.model.Category;
 import com.fredypalacios.service.CategoryService;
