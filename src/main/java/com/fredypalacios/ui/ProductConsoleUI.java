@@ -82,6 +82,7 @@ public class ProductConsoleUI {
     private void create() throws Exception {
         clearScreen();
         System.out.println(title(Titles.CREATE_PRODUCT));
+
         try {
             List<Category> categories = categoryService.findAllActive();
             if (categories.isEmpty()) {
@@ -90,47 +91,33 @@ public class ProductConsoleUI {
                 return;
             }
 
-            System.out.println(info("Available categories:"));
-            for (Category category : categories) {
-                System.out.println("  " + highlight(category.id() + ".") + " " + category.name());
-            }
-            System.out.println();
+            displayAvailableCategories(categories);
 
-            System.out.print(info("SKU: "));
-            String sku = scanner.nextLine();
-            System.out.print(info("Name: "));
-            String name = scanner.nextLine();
-            System.out.print(info("Description: "));
-            String description = scanner.nextLine();
-
+            String sku = promptInput("SKU: ");
+            String name = promptInput("Name: ");
+            String description = promptInput("Description: ");
             double price = getDoubleInput("Price: $");
             int stock = getIntInput("Initial stock: ");
             int minStock = getIntInput("Minimum stock: ");
-
-            System.out.print(info("Location (e.g., A-12-3): "));
-            String location = scanner.nextLine();
-
+            String location = promptInput("Location (e.g., A-12-3): ");
             int categoryId = getIntInput("Category ID: ");
 
-            loadingAnimation(Status.CREATING +" product", 500);
+            loadingAnimation(Status.CREATING + " product", 500);
 
-            boolean created = productService.create(sku, name, description, price, stock, minStock, location, categoryId);
-
-            if (created) {
-                System.out.println(success(Prefix.SUCCESS +" Product created successfully"));
+            if (productService.create(sku, name, description, price, stock, minStock, location, categoryId)) {
+                System.out.println(success(Prefix.SUCCESS + " Product created successfully"));
             } else {
-                System.out.println(error(Prefix.WARNING +" Error creating product"));
+                System.out.println(error(Prefix.WARNING + " Error creating product"));
             }
         } catch (ValidationException e) {
             System.out.println(error(Prefix.WARNING + " Validation error: " + e.getMessage()));
 
         } catch (SQLException e) {
-            if(e.getMessage() != null && e.getMessage().contains("unique constraint")) {
+            if (e.getMessage() != null && e.getMessage().contains("unique constraint")) {
                 System.out.println(error(Prefix.ERROR + " SKU already exists"));
             } else {
-                System.out.println(error(Prefix.ERROR + "Database error"));
+                System.out.println(error(Prefix.ERROR + " Database error"));
             }
-
         } catch (Exception e) {
             System.out.println(error(Prefix.ERROR + e.getMessage()));
         }
@@ -277,5 +264,18 @@ public class ProductConsoleUI {
     private void waitForEnter() {
         System.out.println(info(Input.PRESS_ENTER));
         scanner.nextLine();
+    }
+
+    private String promptInput(String prompt) {
+        System.out.print(info(prompt));
+        return scanner.nextLine();
+    }
+
+    private void displayAvailableCategories(List<Category> categories) {
+        System.out.println(info("Available categories:"));
+        for (Category category : categories) {
+            System.out.println("  " + highlight(category.id() + ".") + " " + category.name());
+        }
+        System.out.println();
     }
 }

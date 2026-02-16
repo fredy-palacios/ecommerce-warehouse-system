@@ -137,40 +137,16 @@ public class UserConsoleUI {
         clearScreen();
         System.out.println(title(Titles.CREATE_USER));
 
-        System.out.print(info("Username: "));
-        String username = scanner.nextLine();
-
-        System.out.print(info("Password: "));
-        String password = scanner.nextLine();
-
-        System.out.print(info("Email: "));
-        String email = scanner.nextLine();
-
-        System.out.print(info("Full name: "));
-        String fullName = scanner.nextLine();
-
-        System.out.println(info("\nRoles:"));
-        System.out.println("  1. 👔 MANAGER");
-        System.out.println("  2. 📦 PICKER");
-        System.out.println("  3. 📥 RECEIVER");
-        System.out.println("  4. 📊 CONTROLLER");
-
-        int roleOpt = getIntInput("\nRole (1-4): ");
-
-        UserRole role = switch (roleOpt) {
-            case 1 -> UserRole.MANAGER;
-            case 2 -> UserRole.PICKER;
-            case 3 -> UserRole.RECEIVER;
-            case 4 -> UserRole.CONTROLLER;
-            default -> UserRole.CONTROLLER;
-        };
+        String username = promptInput("Username: ");
+        String password = promptInput("Password: ");
+        String email = promptInput("Email: ");
+        String fullName = promptInput("Full name: ");
+        UserRole role = promptRole();
 
         try {
             loadingAnimation(Status.CREATING, 500);
 
-            boolean created = userService.create(username, password, email, fullName, role);
-
-            if (created) {
+            if (userService.create(username, password, email, fullName, role)) {
                 System.out.println(success(Prefix.SUCCESS + " User created successfully"));
             } else {
                 System.out.println(error(Prefix.WARNING + " Error creating user"));
@@ -178,12 +154,14 @@ public class UserConsoleUI {
 
         } catch (ValidationException e) {
             System.out.println(error(Prefix.WARNING + " Validation error: " + e.getMessage()));
+
         } catch (SQLException e) {
             if (e.getMessage() != null && e.getMessage().contains("unique")) {
                 System.out.println(error(Prefix.ERROR + " Username or email already exists"));
             } else {
                 System.out.println(error(Prefix.ERROR + " Database error: " + e.getMessage()));
             }
+
         } catch (Exception e) {
             System.out.println(error(Prefix.ERROR + e.getMessage()));
         }
@@ -371,5 +349,28 @@ public class UserConsoleUI {
     private void waitForEnter() {
         System.out.println(info(Input.PRESS_ENTER));
         scanner.nextLine();
+    }
+
+    private String promptInput(String prompt) {
+        System.out.print(info(prompt));
+        return scanner.nextLine();
+    }
+
+    private UserRole promptRole() {
+        System.out.println(info("\nRoles:"));
+        System.out.println("  1. 👔 MANAGER");
+        System.out.println("  2. 📦 PICKER");
+        System.out.println("  3. 📥 RECEIVER");
+        System.out.println("  4. 📊 CONTROLLER");
+
+        int roleOpt = getIntInput("\nRole (1-4): ");
+
+        return switch (roleOpt) {
+            case 1 -> UserRole.MANAGER;
+            case 2 -> UserRole.PICKER;
+            case 3 -> UserRole.RECEIVER;
+            case 4 -> UserRole.CONTROLLER;
+            default -> UserRole.CONTROLLER;
+        };
     }
 }
