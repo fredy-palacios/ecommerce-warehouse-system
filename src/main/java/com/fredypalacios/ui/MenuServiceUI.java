@@ -1,7 +1,6 @@
 package com.fredypalacios.ui;
 
 import com.fredypalacios.service.DashboardService;
-import com.fredypalacios.service.ProductService;
 
 import static com.fredypalacios.ui.utils.ConsoleColors.*;
 import static com.fredypalacios.ui.utils.MessagesUI.*;
@@ -12,18 +11,16 @@ import java.util.Scanner;
 public class MenuServiceUI {
     private final Scanner scanner;
     private final UserConsoleUI userConsoleUI;
-
-    private final ProductService productService;
-    private final DashboardService dashboardService;
+    private final ProductConsoleUI productConsoleUI;
     private final CategoryConsoleUI categoryConsoleUI;
+    private final DashboardService dashboardService;
 
     public MenuServiceUI(Scanner scanner) {
         this.scanner = scanner;
         this.userConsoleUI = new UserConsoleUI(scanner);
-        this.productService = new ProductService(scanner);
+        this.productConsoleUI = new ProductConsoleUI(scanner);
         this.categoryConsoleUI = new CategoryConsoleUI(scanner);
         this.dashboardService = new DashboardService();
-
     }
 
     public void showMainMenu() {
@@ -40,7 +37,7 @@ public class MenuServiceUI {
     public void handleMainMenuOption(int option) throws Exception {
         switch (option) {
             case 1 -> userConsoleUI.showMenu();
-            case 2 -> productService.showMenu();
+            case 2 -> productConsoleUI.showMenu();
             case 3 -> categoryConsoleUI.showMenu();
             case 4 -> showDashboard();
             case 0 -> {}
